@@ -36,7 +36,7 @@ int main()
 
     glEnable(GL_DEPTH_TEST);
 
-    Shader shader("VertexShader.glsl", "FragmentShader.glsl");
+    Shader shader("shaders/VertexShader.glsl", "shaders/FragmentShader.glsl");
 
     Texture crate("textures/container.jpg");
     Texture smile("textures/awesomeface.png");
