@@ -11,9 +11,7 @@
 
 class Shader {
 public:
-    // the program ID
-    unsigned int ID;
-
+    
     // constructor reads and builds the shader
     Shader(const char* vertexPath, const char* fragmentPath);
     // use/activate the shader
@@ -24,4 +22,9 @@ public:
     void setFloat(const std::string& name, float value) const;
     void setVec4(const std::string& name, float value, float value2, float value3, float value4) const;
     void setMat4(const std::string& name, glm::mat4 value) const;
+
+private:
+
+    // the program ID
+    unsigned int ID;
 };

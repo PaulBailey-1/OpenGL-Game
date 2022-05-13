@@ -78,6 +78,9 @@ Shader::Shader(const char* vertexPath, const char* fragmentPath)
     // delete the shaders as they're linked into our program now and no longer necessary
     glDeleteShader(vertex);
     glDeleteShader(fragment);
+
+    use();
+    setInt("Texture", 0);
 }
 
 void Shader::use()
