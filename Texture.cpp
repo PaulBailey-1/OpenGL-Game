@@ -50,7 +50,6 @@ Texture::Texture(const char* filename) {
             printf("Error: invalid value for TEXTURE_UNITS - %i", TEXTURE_UNITS);
         }
         textureUnitCheck = true;
-        printf("check");
     }
 }
 

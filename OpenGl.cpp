@@ -253,7 +253,7 @@ int main()
         view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
 
         glm::mat4 projection;
-        projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+        projection = glm::perspective(glm::radians(45.0f), (float) winWidth / winHeight, 0.1f, 100.0f);
 
         //shader.setMat4("model", model);
         shader.setMat4("view", view);
