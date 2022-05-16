@@ -11,6 +11,7 @@
 
 #include "Shader.h"
 #include "Model.h"
+#include "Camera.h"
 
 int main()
 {
@@ -37,7 +38,9 @@ int main()
 
     Shader shader("shaders/VertexShader.glsl", "shaders/FragmentShader.glsl");
 
-    Model octo("resources/models/box/box.obj");
+    Camera camera(winWidth, winHeight);
+
+    Model octo("resources/models/cube/cube.obj");
     
     sf::Clock clock;
 
@@ -143,18 +146,12 @@ int main()
         // draw...
         shader.use();
 
+        camera.look(shader);
+
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::scale(model, glm::vec3(0.1));
 
-        glm::mat4 view;
-        view = glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
-
-        glm::mat4 projection;
-        projection = glm::perspective(glm::radians(45.0f), (float) winWidth / winHeight, 0.1f, 100.0f);
-
         shader.setMat4("model", model);
-        shader.setMat4("view", view);
-        shader.setMat4("projection", projection);
 
         octo.draw(shader);
 
