@@ -40,22 +40,10 @@ int main()
 
     Camera camera(winWidth, winHeight);
 
-    Model octo("resources/models/cube/cube.obj");
+    Model octo("resources/models/box/box.obj");
     
     sf::Clock clock;
 
-    glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
-    glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
-    glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
-
-    int xpos = 0;
-    int ypos = 0;
-
-    float pitch = 0.0;
-    float yaw = -90.0;
-
-    bool firstMouse = true;
-    bool esc = false;
     bool escPressed = false;
 
     // run the main loop
@@ -80,57 +68,39 @@ int main()
             }
         }
 
-        if (!esc) {
-            sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-            sf::Mouse::setPosition(sf::Vector2i(winWidth / 2, winHeight / 2), window);
-            xpos = mousePos.x;
-            ypos = mousePos.y;
+        sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+        mousePos = camera.updateMouse(mousePos);
+        sf::Mouse::setPosition(mousePos, window);
 
-            float xoffset = xpos - (winWidth / 2);
-            float yoffset = (winHeight / 2) - ypos;
-
-            const float sensitivity = 0.1f;
-            xoffset *= sensitivity;
-            yoffset *= sensitivity;
-
-            yaw += xoffset;
-            pitch += yoffset;
-        }
-
-        if (pitch > 89.0f)
-            pitch = 89.0f;
-        if (pitch < -89.0f)
-            pitch = -89.0f;
-
-        glm::vec3 direction;
-        direction.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
-        direction.y = sin(glm::radians(pitch));
-        direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
-        cameraFront = glm::normalize(direction);
-
-        const float cameraSpeed = 3 * clock.getElapsedTime().asSeconds();
         clock.restart();
+        float elapsedTime = clock.getElapsedTime().asSeconds();
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-            cameraPos += cameraSpeed * cameraFront;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-            cameraPos -= cameraSpeed * cameraFront;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-            cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-            cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+        camera.setSpeed(elapsedTime);
+
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+            camera.forward();
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
+            camera.backward();
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+            camera.strafeLeft();
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+            camera.strafeRight();
+        }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
             if (!escPressed) {
                 escPressed = true;
-                if (!esc) {
+                if (!camera.getEsc()) {
                     window.setMouseCursorVisible(true);
                     window.setMouseCursorGrabbed(false);
-                    esc = true;
+                    camera.setEsc(true);
                 }
                 else {
                     window.setMouseCursorVisible(false);
                     window.setMouseCursorGrabbed(true);
-                    esc = false;
+                    camera.setEsc(false);
                     sf::Mouse::setPosition(sf::Vector2i(winWidth / 2, winHeight / 2), window);
                 }
             }

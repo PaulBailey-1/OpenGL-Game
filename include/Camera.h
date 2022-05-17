@@ -7,6 +7,17 @@ public:
 	Camera(int winWidth, int winHeight);
 
     void look(Shader& shader);
+    sf::Vector2i updateMouse(sf::Vector2i mousePos);
+
+    void setSpeed(float elapsedTime);
+
+    void setEsc(bool esc_) { esc = esc_; }
+    bool getEsc() { return esc; }
+
+    void forward();
+    void backward();
+    void strafeLeft();
+    void strafeRight();
 
 private:
 
@@ -20,14 +31,15 @@ private:
     glm::mat4 view;
     glm::mat4 projection;
 
-    int xpos = 0;
-    int ypos = 0;
+    int xpos;
+    int ypos;
 
-    float pitch = 0.0;
-    float yaw = -90.0;
+    float pitch;
+    float yaw;
+
+    float cameraSpeed;
 
     bool firstMouse = true;
     bool esc = false;
-    bool escPressed = false;
 };
 
