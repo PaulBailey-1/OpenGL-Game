@@ -72,8 +72,8 @@ int main()
         mousePos = camera.updateMouse(mousePos);
         sf::Mouse::setPosition(mousePos, window);
 
-        clock.restart();
         float elapsedTime = clock.getElapsedTime().asSeconds();
+        clock.restart();
 
         camera.setSpeed(elapsedTime);
 

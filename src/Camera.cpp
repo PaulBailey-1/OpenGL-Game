@@ -71,7 +71,7 @@ sf::Vector2i Camera::updateMouse(sf::Vector2i mousePos) {
 }
 
 void Camera::setSpeed(float elapsedTime) {
-    cameraSpeed = 3000 * elapsedTime;
+    cameraSpeed = 3 * elapsedTime;
 }
 
 void Camera::forward() {
