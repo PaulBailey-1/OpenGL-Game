@@ -10,8 +10,8 @@
 #include <stb_image.h>
 
 #include "Shader.h"
-#include "Model.h"
-#include "Camera.h"
+#include "Object.h"
+#include "Player.h"
 
 int main()
 {
@@ -38,9 +38,10 @@ int main()
 
     Shader shader("shaders/VertexShader.glsl", "shaders/FragmentShader.glsl");
 
-    Camera camera(winWidth, winHeight);
+    Player player(winWidth, winHeight);
 
-    Model octo("resources/models/box/box.obj");
+    Object box("resources/models/cube/cube.obj", &shader);
+    Object ground("resources/models/ground/ground.obj", &shader);
     
     sf::Clock clock;
 
@@ -69,25 +70,26 @@ int main()
         }
 
         sf::Vector2i mousePos = sf::Mouse::getPosition(window);
-        mousePos = camera.updateMouse(mousePos);
+
+        mousePos = player.updateMouse(mousePos);
         sf::Mouse::setPosition(mousePos, window);
 
         float elapsedTime = clock.getElapsedTime().asSeconds();
         clock.restart();
 
-        camera.setSpeed(elapsedTime);
+        player.setElapsedTime(elapsedTime);
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
-            camera.forward();
+            player.forward();
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::S)) {
-            camera.backward();
+            player.backward();
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-            camera.strafeLeft();
+            player.strafeLeft();
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-            camera.strafeRight();
+            player.strafeRight();
         }
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
             if (!escPressed) {
@@ -118,12 +120,8 @@ int main()
 
         camera.look(shader);
 
-        glm::mat4 model = glm::mat4(1.0f);
-        model = glm::scale(model, glm::vec3(0.1));
-
-        shader.setMat4("model", model);
-
-        octo.draw(shader);
+        ground.draw();
+        box.draw();
 
         window.display();
     }

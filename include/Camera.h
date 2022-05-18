@@ -1,6 +1,8 @@
 #pragma once
 #include <glm/glm.hpp>
-#include <Shader.h>
+#include <SFML/System.hpp>
+
+#include "Shader.h"
 
 class Camera {
 public:
@@ -27,6 +29,7 @@ private:
     glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
     glm::vec3 cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
     glm::vec3 cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+    glm::vec3 movement;
 
     glm::mat4 view;
     glm::mat4 projection;

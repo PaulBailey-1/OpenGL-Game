@@ -9,7 +9,7 @@ Camera::Camera(int winWidth_, int winHeight_) {
     winWidth = winWidth_;
     winHeight = winHeight_;
 
-    cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);
+    cameraPos = glm::vec3(0.0f, 0.2f, 3.0f);
     cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
     cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
 
@@ -66,6 +66,7 @@ sf::Vector2i Camera::updateMouse(sf::Vector2i mousePos) {
     direction.y = sin(glm::radians(pitch));
     direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
     cameraFront = glm::normalize(direction);
+    movement = glm::vec3(cameraFront.x, 0.0f, cameraFront.z);
 
     return setMouse;
 }
@@ -75,17 +76,17 @@ void Camera::setSpeed(float elapsedTime) {
 }
 
 void Camera::forward() {
-    cameraPos += cameraSpeed * cameraFront;
+    cameraPos += cameraSpeed * movement;
 }
 
 void Camera::backward() {
-    cameraPos -= cameraSpeed * cameraFront;
+    cameraPos -= cameraSpeed * movement;
 }
 
 void Camera::strafeLeft() {
-    cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+    cameraPos -= glm::normalize(glm::cross(movement, cameraUp)) * cameraSpeed;
 }
 
 void Camera::strafeRight() {
-    cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+    cameraPos += glm::normalize(glm::cross(movement, cameraUp)) * cameraSpeed;
 }
