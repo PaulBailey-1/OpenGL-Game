@@ -4,14 +4,15 @@
 
 #include "Camera.h"
 
-Camera::Camera(int winWidth_, int winHeight_) {
+Camera::Camera(int winWidth_, int winHeight_, glm::vec3 startingPos) {
 
     winWidth = winWidth_;
     winHeight = winHeight_;
 
-    cameraPos = glm::vec3(0.0f, 0.2f, 3.0f);
+    cameraPos = startingPos;
     cameraFront = glm::vec3(0.0f, 0.0f, -1.0f);
     cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);
+    movement = glm::vec3(cameraFront.x, 0.0f, cameraFront.z);
 
     view = glm::mat4(1.0);
     projection = glm::perspective(glm::radians(45.0f), (float)winWidth / winHeight, 0.1f, 100.0f);
@@ -22,10 +23,7 @@ Camera::Camera(int winWidth_, int winHeight_) {
     pitch = 0.0;
     yaw = -90.0;
 
-    cameraSpeed = 0.0;
-
     firstMouse = true;
-    esc = false;
 
 }
 
@@ -40,21 +38,19 @@ void Camera::look(Shader& shader) {
 sf::Vector2i Camera::updateMouse(sf::Vector2i mousePos) {
 
     sf::Vector2i setMouse = mousePos;
-    if (!esc) {
-        setMouse = sf::Vector2i(winWidth / 2, winHeight / 2);
-        xpos = mousePos.x;
-        ypos = mousePos.y;
+    setMouse = sf::Vector2i(winWidth / 2, winHeight / 2);
+    xpos = mousePos.x;
+    ypos = mousePos.y;
 
-        float xoffset = xpos - (winWidth / 2);
-        float yoffset = (winHeight / 2) - ypos;
+    float xoffset = xpos - (winWidth / 2);
+    float yoffset = (winHeight / 2) - ypos;
 
-        const float sensitivity = 0.1f;
-        xoffset *= sensitivity;
-        yoffset *= sensitivity;
+    const float sensitivity = 0.1f;
+    xoffset *= sensitivity;
+    yoffset *= sensitivity;
 
-        yaw += xoffset;
-        pitch += yoffset;
-    }
+    yaw += xoffset;
+    pitch += yoffset;
 
     if (pitch > 89.0f)
         pitch = 89.0f;
@@ -66,27 +62,7 @@ sf::Vector2i Camera::updateMouse(sf::Vector2i mousePos) {
     direction.y = sin(glm::radians(pitch));
     direction.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
     cameraFront = glm::normalize(direction);
-    movement = glm::vec3(cameraFront.x, 0.0f, cameraFront.z);
+    movement = glm::normalize(glm::vec3(cameraFront.x, 0.0f, cameraFront.z));
 
     return setMouse;
-}
-
-void Camera::setSpeed(float elapsedTime) {
-    cameraSpeed = 3 * elapsedTime;
-}
-
-void Camera::forward() {
-    cameraPos += cameraSpeed * movement;
-}
-
-void Camera::backward() {
-    cameraPos -= cameraSpeed * movement;
-}
-
-void Camera::strafeLeft() {
-    cameraPos -= glm::normalize(glm::cross(movement, cameraUp)) * cameraSpeed;
-}
-
-void Camera::strafeRight() {
-    cameraPos += glm::normalize(glm::cross(movement, cameraUp)) * cameraSpeed;
 }

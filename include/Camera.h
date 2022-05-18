@@ -6,20 +6,17 @@
 
 class Camera {
 public:
-	Camera(int winWidth, int winHeight);
+
+    Camera() {}
+	Camera(int winWidth, int winHeight, glm::vec3 startingPos);
 
     void look(Shader& shader);
     sf::Vector2i updateMouse(sf::Vector2i mousePos);
 
-    void setSpeed(float elapsedTime);
+    glm::vec3 getDirection() { return movement; }
+    glm::vec3 getUp() { return cameraUp; }
 
-    void setEsc(bool esc_) { esc = esc_; }
-    bool getEsc() { return esc; }
-
-    void forward();
-    void backward();
-    void strafeLeft();
-    void strafeRight();
+    void setPos(glm::vec3 pos_) { cameraPos = pos_; }
 
 private:
 
@@ -40,9 +37,6 @@ private:
     float pitch;
     float yaw;
 
-    float cameraSpeed;
-
     bool firstMouse = true;
-    bool esc = false;
 };
 
