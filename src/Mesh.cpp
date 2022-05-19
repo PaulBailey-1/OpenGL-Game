@@ -59,3 +59,23 @@ void Mesh::draw(Shader& shader)
 
     glActiveTexture(GL_TEXTURE0);
 }
+
+float Mesh::getLength() {
+    float most = 0.0;
+    float least = 0.0;
+    for (Vertex vertex : vertices) {
+        glm::vec3 pos = vertex.position;
+        if (pos.x > most) {
+            most = pos.x;
+        }
+    }
+
+    for (Vertex vertex : vertices) {
+        glm::vec3 pos = vertex.position;
+        if (pos.x < least) {
+            least = pos.x;
+        }
+    }
+
+    return most + abs(least);
+}

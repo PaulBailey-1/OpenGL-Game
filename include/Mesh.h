@@ -25,6 +25,8 @@ public:
 
 	void draw(Shader &shader);
 
+	float getLength();
+
 private:
 
 	std::vector<Vertex> vertices;

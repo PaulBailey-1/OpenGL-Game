@@ -178,3 +178,14 @@ void Model::draw(Shader& shader) {
         meshes[i].draw(shader);
     }
 }
+
+float Model::getLength() {
+    float greatest = 0.0;
+    for (Mesh mesh : meshes) {
+        float length = mesh.getLength();
+        if (length > greatest) {
+            greatest = length;
+        }
+    }
+    return greatest;
+}

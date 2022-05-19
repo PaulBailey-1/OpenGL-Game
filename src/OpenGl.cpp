@@ -40,7 +40,7 @@ int main()
 
     Player player(winWidth, winHeight, &shader, glm::vec3(0.0, 0.0, 3.0), 0.5);
 
-    Object box("resources/models/box/box.obj", &shader, glm::vec3(0.0, 1.0, 0.0));
+    Object box("resources/models/cube/cube.obj", &shader, glm::vec3(0.0, 1.0, 0.0));
     Object ground("resources/models/ground/ground.obj", &shader);
     
     sf::Clock clock;
@@ -122,7 +122,7 @@ int main()
 
         player.draw();
 
-        ground.scale(100.0);
+        ground.setScale(glm::vec3(100.0));
         ground.draw();
 
         box.draw();

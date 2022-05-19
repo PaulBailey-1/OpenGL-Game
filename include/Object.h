@@ -8,8 +8,10 @@ public:
 	Object(const char* path, Shader* shader_, glm::vec3 pos_ = glm::vec3(0.0));
 
 	void draw();
-	void translate(glm::vec3 trans);
-	void scale(float scale);
+
+	void setPos(glm::vec3 translate_);
+	void setScale(glm::vec3 scale_);
+	void setRotate(glm::vec3 rotate_);
 
 private:
 
@@ -19,5 +21,11 @@ private:
 	glm::mat4 modelMat;
 
 	glm::vec3 pos;
+	glm::vec3 scale;
+	glm::vec3 rotate;
+
+	float length;
+	float width;
+	float height;
 };
 

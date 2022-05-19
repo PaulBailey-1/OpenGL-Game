@@ -7,7 +7,7 @@
 const float friction = 15.0;
 const float speed = 3.0;
 const float jumpSpeed = 4.0;
-const float gravity = 10.0;
+const float gravity = 12.0;
 
 class Player {
 public:

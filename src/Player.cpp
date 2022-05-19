@@ -19,7 +19,7 @@ sf::Vector2i Player::updateMouse(sf::Vector2i mousePos) {
 }
 
 void Player::draw() {
-	object.translate(pos);
+	object.setPos(pos);
 	object.draw();
 }
 

@@ -15,7 +15,10 @@ public:
 
 	void draw(Shader& shader);
 
-	static unsigned int getTexture(const char* filename, const std::string &directory);
+	float getLength();
+	float getWidth();
+	float getHeight();
+
 private:
 
 	std::vector<Mesh> meshes;
@@ -25,4 +28,6 @@ private:
 	void processNode(aiNode* node, const aiScene* scene);
 	Mesh processMesh(aiMesh* mesh, const aiScene* scene);
 	std::vector<Texture> loadMaterialTextures(aiMaterial* mat, aiTextureType type, std::string typeName);
+	unsigned int getTexture(const char* filename, const std::string& directory);
+
 };

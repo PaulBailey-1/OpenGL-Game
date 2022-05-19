@@ -10,20 +10,27 @@ Object::Object(const char* path, Shader* shader_, glm::vec3 pos_) {
 	shader = shader_;
 	modelMat = glm::mat4(1.0f);
 	pos = pos_;
+
+	scale = glm::vec3(0.1);
+	rotate = glm::vec3(1.0);
 }
 
-void Object::translate(glm::vec3 trans) {
-	modelMat = glm::translate(modelMat, trans);
+void Object::setPos(glm::vec3 pos_) {
+	pos = pos_;
 }
 
-void Object::scale(float scale) {
-	modelMat = glm::scale(modelMat, glm::vec3(scale));
+void Object::setScale(glm::vec3 scale_) {
+	scale = scale_;
+}
+
+void Object::setRotate(glm::vec3 rotate_) {
+	rotate = rotate_;
 }
 
 void Object::draw() {
 
-	scale(0.1);
-	translate(pos);
+	modelMat = glm::scale(modelMat, scale);
+	modelMat = glm::translate(modelMat, pos);
 
 	shader->setMat4("model", modelMat);
 	modelMat = glm::mat4(1.0f);
