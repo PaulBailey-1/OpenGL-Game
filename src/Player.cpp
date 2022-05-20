@@ -2,7 +2,7 @@
 
 Player::Player(int winWidth, int winHeight, Shader* shader_, glm::vec3 startingPos, float height_, const char* path) : 
 		camera(winWidth, winHeight, startingPos + glm::vec3(0.0, height_, 0.0)),
-		object(path, shader_) {
+		object(path, shader_, startingPos) {
 
 	shader = shader_;
 	pos = startingPos;
@@ -11,6 +11,10 @@ Player::Player(int winWidth, int winHeight, Shader* shader_, glm::vec3 startingP
 	height = height_;
 
 	grounded = true;
+
+	object.length = 0.1;
+	object.width = 0.1;
+	object.height = 0.5;
 }
 
 sf::Vector2i Player::updateMouse(sf::Vector2i mousePos) {
@@ -54,9 +58,14 @@ void Player::jump() {
 
 void Player::update(float deltaTime) {
 
-	//for (Object* object : *objects) {
-	//	if (pos.x < object->getPosX() && pos.z < object->getPosZ() && pos.z > object->getPosZ() +  && velocity.x < 0.0) {
-	//		velocity.x = 0.0;
+	//for (Object* otherObject : *objects) {
+
+	//	bool xInt = object.xIntersection(*otherObject);
+	//	bool yInt = object.yIntersection(*otherObject);
+	//	bool zInt = object.zIntersection(*otherObject);
+
+	//	if (xInt && yInt) {
+	//		velocity.z = 0.0;
 	//	}
 	//}
 

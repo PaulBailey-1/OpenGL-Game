@@ -65,3 +65,36 @@ float Object::getPosY() {
 float Object::getPosZ() {
 	return pos.z - width / 2;
 }
+
+bool Object::xIntersection(Object other) {
+
+	float xL1 = getPosX();
+	float xR1 = getPosX() + length;
+
+	float xL2 = other.getPosX();
+	float xR2 = other.getPosX() + other.length;
+
+	return xL1 < xR2 && xR1 > xL2;
+}
+
+bool Object::yIntersection(Object other) {
+
+	float yL1 = getPosY();
+	float yR1 = getPosY() + height;
+
+	float yL2 = other.getPosY();
+	float yR2 = other.getPosY() + other.height;
+
+	return yL1 < yR2 && yR1 > yL2;
+}
+
+bool Object::zIntersection(Object other) {
+
+	float zL1 = getPosZ();
+	float zR1 = getPosZ() + width;
+
+	float zL2 = other.getPosZ();
+	float zR2 = other.getPosZ() + other.width;
+
+	return zL1 < zR2 && zR1 > zL2;
+}

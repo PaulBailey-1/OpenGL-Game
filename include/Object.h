@@ -8,6 +8,10 @@ public:
 
 	void draw();
 
+	bool xIntersection(Object other);
+	bool yIntersection(Object other);
+	bool zIntersection(Object other);
+
 	void setPos(glm::vec3 translate_);
 	void setScale(glm::vec3 scale_);
 	//void setRotate(glm::vec3 rotate_);
