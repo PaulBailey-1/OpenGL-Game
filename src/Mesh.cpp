@@ -61,19 +61,50 @@ void Mesh::draw(Shader& shader)
 }
 
 float Mesh::getLength() {
+
     float most = 0.0;
     float least = 0.0;
-    for (Vertex vertex : vertices) {
-        glm::vec3 pos = vertex.position;
-        if (pos.x > most) {
-            most = pos.x;
+    for (int i = 0; i < vertices.size(); i++) {
+        float coord = vertices[i].position.x;
+        if (coord > most) {
+            most = coord;
+        }
+        if (coord < least) {
+            least = coord;
         }
     }
 
-    for (Vertex vertex : vertices) {
-        glm::vec3 pos = vertex.position;
-        if (pos.x < least) {
-            least = pos.x;
+    return most + abs(least);
+}
+
+float Mesh::getWidth() {
+
+    float most = 0.0;
+    float least = 0.0;
+    for (int i = 0; i < vertices.size(); i++) {
+        float coord = vertices[i].position.z;
+        if (coord > most) {
+            most = coord;
+        }
+        if (coord < least) {
+            least = coord;
+        }
+    }
+
+    return most + abs(least);
+}
+
+float Mesh::getHeight() {
+
+    float most = 0.0;
+    float least = 0.0;
+    for (int i = 0; i < vertices.size(); i++) {
+        float coord = vertices[i].position.y;
+        if (coord > most) {
+            most = coord;
+        }
+        if (coord < least) {
+            least = coord;
         }
     }
 

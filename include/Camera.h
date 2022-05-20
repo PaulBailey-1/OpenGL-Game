@@ -7,7 +7,6 @@
 class Camera {
 public:
 
-    Camera() {}
 	Camera(int winWidth, int winHeight, glm::vec3 startingPos);
 
     void look(Shader& shader);

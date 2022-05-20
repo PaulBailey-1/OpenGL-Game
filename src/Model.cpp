@@ -189,3 +189,25 @@ float Model::getLength() {
     }
     return greatest;
 }
+
+float Model::getWidth() {
+    float greatest = 0.0;
+    for (Mesh mesh : meshes) {
+        float length = mesh.getWidth();
+        if (length > greatest) {
+            greatest = length;
+        }
+    }
+    return greatest;
+}
+
+float Model::getHeight() {
+    float greatest = 0.0;
+    for (Mesh mesh : meshes) {
+        float length = mesh.getHeight();
+        if (length > greatest) {
+            greatest = length;
+        }
+    }
+    return greatest;
+}

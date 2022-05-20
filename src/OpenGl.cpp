@@ -36,12 +36,19 @@ int main()
 
     glEnable(GL_DEPTH_TEST);
 
+    std::vector<Object*> objects;
+
     Shader shader("shaders/VertexShader.glsl", "shaders/FragmentShader.glsl");
 
     Player player(winWidth, winHeight, &shader, glm::vec3(0.0, 0.0, 3.0), 0.5);
+    player.setObjects(objects);
 
-    Object box("resources/models/cube/cube.obj", &shader, glm::vec3(0.0, 1.0, 0.0));
-    Object ground("resources/models/ground/ground.obj", &shader);
+    Object* box = new Object("resources/models/cube/cube.obj", &shader, glm::vec3(0.0, 1.0, 0.0));
+    Object* ground = new Object("resources/models/ground/ground.obj", &shader);
+    ground->setScale(glm::vec3(100.0));
+
+    objects.push_back(box);
+    objects.push_back(ground);
     
     sf::Clock clock;
 
@@ -122,10 +129,9 @@ int main()
 
         player.draw();
 
-        ground.setScale(glm::vec3(100.0));
-        ground.draw();
-
-        box.draw();
+        for (Object* object : objects) {
+            object->draw();
+        }
 
         window.display();
     }

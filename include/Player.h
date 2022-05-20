@@ -19,6 +19,8 @@ public:
 	void update(float deltaTime);
 	void draw();
 
+	void setObjects(std::vector<Object*> &objects_) { objects = &objects_; }
+
 	void forward();
 	void backward();
 	void strafeLeft();
@@ -32,6 +34,8 @@ private:
 	Object object;
 
 	Shader* shader;
+
+	std::vector<Object*>* objects;
 
 	glm::vec3 pos;
 	glm::vec3 velocity;

@@ -1,9 +1,8 @@
 #include "Player.h"
 
-Player::Player(int winWidth, int winHeight, Shader* shader_, glm::vec3 startingPos, float height_, const char* path) {
-
-	camera = Camera(winWidth, winHeight, startingPos + glm::vec3(0.0, height_, 0.0));
-	object = Object(path, shader_);
+Player::Player(int winWidth, int winHeight, Shader* shader_, glm::vec3 startingPos, float height_, const char* path) : 
+		camera(winWidth, winHeight, startingPos + glm::vec3(0.0, height_, 0.0)),
+		object(path, shader_) {
 
 	shader = shader_;
 	pos = startingPos;
@@ -54,6 +53,12 @@ void Player::jump() {
 }
 
 void Player::update(float deltaTime) {
+
+	//for (Object* object : *objects) {
+	//	if (pos.x < object->getPosX() && pos.z < object->getPosZ() && pos.z > object->getPosZ() +  && velocity.x < 0.0) {
+	//		velocity.x = 0.0;
+	//	}
+	//}
 
 	pos += velocity * deltaTime * speed;
 	velocity -= glm::vec3(velocity * deltaTime * friction);

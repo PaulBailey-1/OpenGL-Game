@@ -26,6 +26,8 @@ public:
 	void draw(Shader &shader);
 
 	float getLength();
+	float getWidth();
+	float getHeight();
 
 private:
 
