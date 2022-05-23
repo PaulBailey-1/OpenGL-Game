@@ -16,6 +16,7 @@ public:
     glm::vec3 getUp() { return cameraUp; }
 
     void setPos(glm::vec3 pos_) { cameraPos = pos_; }
+    void setWindowDims(int width, int height);
 
 private:
 

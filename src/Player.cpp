@@ -4,6 +4,8 @@ Player::Player(int winWidth, int winHeight, Shader* shader_, glm::vec3 startingP
 		camera(winWidth, winHeight, startingPos + glm::vec3(0.0, height_, 0.0)),
 		object(path, shader_, startingPos) {
 
+	objects = std::vector<Object*>();
+
 	shader = shader_;
 	pos = startingPos;
 	velocity = glm::vec3(0.0, 0.0, 0.0);
@@ -15,6 +17,11 @@ Player::Player(int winWidth, int winHeight, Shader* shader_, glm::vec3 startingP
 	object.length = 0.1;
 	object.width = 0.1;
 	object.height = 0.5;
+}
+
+void Player::addObject(Object* object) {
+	objects.push_back(object);
+	objectInt.push_back(Interferance());
 }
 
 sf::Vector2i Player::updateMouse(sf::Vector2i mousePos) {
@@ -58,25 +65,43 @@ void Player::jump() {
 
 void Player::update(float deltaTime) {
 
-	//for (Object* otherObject : *objects) {
+	bool objectGrounded = false;
+	for (int i = 0; i < objects.size(); i++) {
 
-	//	bool xInt = object.xIntersection(*otherObject);
-	//	bool yInt = object.yIntersection(*otherObject);
-	//	bool zInt = object.zIntersection(*otherObject);
+		bool xInt = object.xIntersection(objects[i]);
+		bool yInt = object.yIntersection(objects[i]);
+		bool zInt = object.zIntersection(objects[i]);
 
-	//	if (xInt && yInt) {
-	//		velocity.z = 0.0;
-	//	}
-	//}
+		if (objectInt[i].xInt && objectInt[i].yInt && !objectInt[i].zInt && zInt && !((pos.z + velocity.z > (objects[i]->getPosZ() + objects[i]->width)) || (pos.z + velocity.z < objects[i]->getPosZ()))) {
+			velocity.z = 0.0;
+			zInt = false;
+		}
+
+		if (objectInt[i].zInt && objectInt[i].yInt && !objectInt[i].xInt && xInt && !((pos.x + velocity.x > (objects[i]->getPosX() + objects[i]->length)) || (pos.x + velocity.x < objects[i]->getPosX()))) {
+			velocity.x = 0.0;
+			xInt = false;
+		}
+
+		if (objectInt[i].zInt && objectInt[i].xInt && !objectInt[i].yInt && yInt && !((pos.y + velocity.y - 0.5 > (objects[i]->getPosY() + objects[i]->height)) || (pos.y + velocity.y + 0.5 < objects[i]->getPosY()))) {
+			if (velocity.y <= 0.0) {
+				objectGrounded = true;
+			}
+			velocity.y = 0.0;
+			yInt = false;
+		}
+
+		objectInt[i].xInt = xInt;
+		objectInt[i].yInt = yInt;
+		objectInt[i].zInt = zInt;
+	}
 
 	pos += velocity * deltaTime * speed;
-	velocity -= glm::vec3(velocity * deltaTime * friction);
+	velocity -= glm::vec3(velocity.x * deltaTime * friction, 0.0, velocity.z * deltaTime * friction);
 
-	if (pos.y < 0.001) {
+	if (pos.y < 0.001 || objectGrounded) {
 		grounded = true;
 		velocity.y = 0.0;
-	}
-	else {
+	} else {
 		grounded = false;
 		velocity.y -= gravity * deltaTime;
 	}

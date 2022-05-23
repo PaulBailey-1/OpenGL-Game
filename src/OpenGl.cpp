@@ -13,11 +13,17 @@
 #include "Object.h"
 #include "Player.h"
 
-int main()
-{
+int winWidth = 1500;
+int winHeight = 1000;
 
-    int winWidth = 1500;
-    int winHeight = 1000;
+
+
+//void addObject(Object* object) {
+//    objects.push_back(object);
+//    player.addObject(object);
+//}
+
+int main() {
 
     // create the window
     sf::Window window(sf::VideoMode(winWidth, winHeight), "OpenGL", sf::Style::Default, sf::ContextSettings(24, 8, 2, 3, 3));
@@ -36,19 +42,22 @@ int main()
 
     glEnable(GL_DEPTH_TEST);
 
-    std::vector<Object*> objects;
-
     Shader shader("shaders/VertexShader.glsl", "shaders/FragmentShader.glsl");
 
-    Player player(winWidth, winHeight, &shader, glm::vec3(0.0, 0.0, 3.0), 0.5);
-    player.setObjects(objects);
+    std::vector<Object*> objects;
+    Player player(winWidth, winHeight, &shader, glm::vec3(0.0, 0.0, 10.0), 5.0);
 
     Object* box = new Object("resources/models/cube/cube.obj", &shader, glm::vec3(0.0, 1.0, 0.0));
     Object* ground = new Object("resources/models/ground/ground.obj", &shader);
     ground->setScale(glm::vec3(100.0));
+    box->setScale(glm::vec3(2.0));
 
     objects.push_back(box);
+    player.addObject(box);
     objects.push_back(ground);
+    player.addObject(ground);
+    //addObject(box);
+    //addObject(ground);
     
     sf::Clock clock;
 
@@ -69,6 +78,7 @@ int main()
             {
                 winWidth = event.size.width;
                 winHeight = event.size.height;
+                player.setWindowDims(winWidth, winHeight);
                 glViewport(0, 0, event.size.width, event.size.height);
             }
         }
@@ -121,7 +131,7 @@ int main()
         player.update(deltaTime);
 
         // clear the buffers
-        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        glClearColor(0.2f, .5f, 1.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         // draw...

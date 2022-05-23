@@ -66,3 +66,9 @@ sf::Vector2i Camera::updateMouse(sf::Vector2i mousePos) {
 
     return setMouse;
 }
+
+void Camera::setWindowDims(int width, int height) {
+    winHeight = width;
+    winHeight = height;
+    projection = glm::perspective(glm::radians(45.0f), (float)winWidth / winHeight, 0.1f, 100.0f);
+};

@@ -5,9 +5,15 @@
 #include "Shader.h"
 
 const float friction = 15.0;
-const float speed = 3.0;
-const float jumpSpeed = 4.0;
-const float gravity = 12.0;
+const float speed = 30.0;
+const float jumpSpeed = 2.0;
+const float gravity = 8.0;
+
+struct Interferance {
+	bool xInt;
+	bool yInt;
+	bool zInt;
+};
 
 class Player {
 public:
@@ -18,8 +24,9 @@ public:
 
 	void update(float deltaTime);
 	void draw();
+	void addObject(Object* object);
 
-	void setObjects(std::vector<Object*> &objects_) { objects = &objects_; }
+	void setWindowDims(int width, int height) { camera.setWindowDims(width, height); }
 
 	void forward();
 	void backward();
@@ -35,7 +42,8 @@ private:
 
 	Shader* shader;
 
-	std::vector<Object*>* objects;
+	std::vector<Object*> objects;
+	std::vector<Interferance> objectInt;
 
 	glm::vec3 pos;
 	glm::vec3 velocity;
