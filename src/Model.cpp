@@ -143,9 +143,6 @@ unsigned int Model::getTexture(const char* path, const std::string &directory) {
     //stbi_set_flip_vertically_on_load(true);
     unsigned char* data = stbi_load(filename.c_str(), &width, &height, &nrChannels, 0);
 
-    std::string filenameS = std::string(filename);
-    std::string type = filenameS.substr(filenameS.find(".") + 1);
-
     if (data) {
 
         GLenum format;

@@ -16,13 +16,6 @@
 int winWidth = 1500;
 int winHeight = 1000;
 
-
-
-//void addObject(Object* object) {
-//    objects.push_back(object);
-//    player.addObject(object);
-//}
-
 int main() {
 
     // create the window
@@ -32,7 +25,7 @@ int main() {
     window.setMouseCursorVisible(false);
 
     sf::Mouse::setPosition(sf::Vector2i(winWidth / 2, winHeight / 2), window);
-
+     
     // activate the window
     window.setActive(true);
 
@@ -45,19 +38,24 @@ int main() {
     Shader shader("shaders/VertexShader.glsl", "shaders/FragmentShader.glsl");
 
     std::vector<Object*> objects;
-    Player player(winWidth, winHeight, &shader, glm::vec3(0.0, 0.0, 10.0), 5.0);
+    Player player(winWidth, winHeight, &shader, glm::vec3(0.0, 0.0, 10.0), 8.0);
 
-    Object* box = new Object("resources/models/cube/cube.obj", &shader, glm::vec3(0.0, 1.0, 0.0));
+    float cubes[3][3] = { 
+        {0.0, 2.0, 0.0},
+        {2.0, 6.0, -10.0},
+        {-2.0, 8.0, -25.0}
+    };
+
+    for (int i = 0; i < 3; i++) {
+        Object* cube = new Object("resources/models/cube/cube.obj", &shader, glm::vec3(cubes[i][0], cubes[i][1], cubes[i][2]));
+        cube->setScale(glm::vec3(2.0));
+        objects.push_back(cube);
+        player.addObject(cube);
+    }
+
     Object* ground = new Object("resources/models/ground/ground.obj", &shader);
     ground->setScale(glm::vec3(100.0));
-    box->setScale(glm::vec3(2.0));
-
-    objects.push_back(box);
-    player.addObject(box);
     objects.push_back(ground);
-    player.addObject(ground);
-    //addObject(box);
-    //addObject(ground);
     
     sf::Clock clock;
 

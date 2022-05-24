@@ -2,7 +2,7 @@
 
 Player::Player(int winWidth, int winHeight, Shader* shader_, glm::vec3 startingPos, float height_, const char* path) : 
 		camera(winWidth, winHeight, startingPos + glm::vec3(0.0, height_, 0.0)),
-		object(path, shader_, startingPos) {
+		object(path, shader_, startingPos + glm::vec3(0.0, height_, 0.0)) {
 
 	objects = std::vector<Object*>();
 

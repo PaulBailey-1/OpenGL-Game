@@ -33,7 +33,7 @@ void Object::setScale(glm::vec3 scale_) {
 	width *= scale_.z / scale.z;
 	height *= scale_.y / scale.y;
 
-	scale = scale_;
+	scale *= scale_;
 }
 
 //void Object::setRotate(glm::vec3 rotate_) {
@@ -42,8 +42,8 @@ void Object::setScale(glm::vec3 scale_) {
 
 void Object::draw() {
 
-	modelMat = glm::scale(modelMat, scale);
 	modelMat = glm::translate(modelMat, pos);
+	modelMat = glm::scale(modelMat, scale);
 
 	shader->setMat4("model", modelMat);
 	modelMat = glm::mat4(1.0f);
